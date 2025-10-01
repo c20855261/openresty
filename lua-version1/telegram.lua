@@ -3,9 +3,8 @@ local redis = require "resty.redis"
  
 local telegram = {}
  
-telegram.BOT_TOKEN = "7933645427:AAGy6Hs3R43GGLuqcKUMl5KPmCy3_kuWxjw"
--- telegram.CHAT_ID = "-546968582"
-telegram.CHAT_ID = "-4654538146"
+telegram.BOT_TOKEN = "${BOT_TOKEN}"
+telegram.CHAT_ID = "-${CHAT_ID}"
  
 function telegram.send(text)
     local httpc = http.new()
