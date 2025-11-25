@@ -1,6 +1,20 @@
 # IP 封鎖與錯誤監控系統
 
 這是一個基於 **OpenResty** 的 IP 封鎖與 HTTP 錯誤監控系統，搭配 **Redis** 實現請求頻率限制與錯誤碼封鎖，並通過 **Telegram** 發送通知。
+---
+## 版本歷程
+- v1 : 僅限次數封鎖的舊版
+- v2 : 忘記了，待驗證後刪除
+- v3 : 增加監控 HTTP 錯誤碼
+- v4 : 增加前端頁面顯示，config共用設定檔
+```
+        location = /daily_ip_stats {
+            content_by_lua_file /opt/openresty/nginx/conf/conf.d/lua/daily_ip_stats.lua;
+            #stub_status on;
+        }
+    }    
+```
+---
 
 ---
 
