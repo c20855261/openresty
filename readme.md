@@ -7,6 +7,8 @@
 - v2 : 忘記了，待驗證後刪除
 - v3 : 增加監控 HTTP 錯誤碼
 - v4 : 增加前端頁面顯示，config共用設定檔
+- v5 : 修正log_error_block httpcode 到達次數後直接block
+       原來之前版本都只有紀錄跟通知
 ```
         location = /daily_ip_stats {
             content_by_lua_file /opt/openresty/nginx/conf/conf.d/lua/daily_ip_stats.lua;
