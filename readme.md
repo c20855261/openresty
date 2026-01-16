@@ -18,9 +18,16 @@
 ```
 - v6 : redis key daily:ipcounts 棄用，前端顯示頁改成獲取 redis daily:20260116:101.36.118.185 值
 ```
-原因：daily:ipcounts 只會在 async_ban_process 被執行時累計（透過 ZINCRBY）。而 async_ban_process 只會被排程（ngx.timer.at）當 Shared Dict 的錯誤計數 new_count >= threshold（ERROR_THRESHOLDS[status]）時才會建立。你 10 次 404 並未達到預設 threshold（預設通常是 80），因此沒有排程 timer，handler 沒執行，Redis 的 daily:ipcounts 就不會增加。
+原因：daily:ipcounts 只會在 async_ban_process 被執行時累計（透過 ZINCRBY）。
+而 async_ban_process 只會被排程（ngx.timer.at）當 Shared Dict 的錯誤計數
+new_count >= threshold（ERROR_THRESHOLDS[status]）時才會建立。
+你 10 次 404 並未達到預設 threshold（預設通常是 80），因此沒有排程 timer，
+handler 沒執行，Redis 的 daily:ipcounts 就不會增加。
 
-block_ip.lua 的 count:* keys 是「request rate」(連線/頻率) 的即時計數，與 log_error_block.lua 的錯誤碼封鎖/每日統計（daily:ipcounts）是不同用途。daily:ipcounts 對應 log_error_block.lua（錯誤碼達 threshold 時做的每日排名），count:... 對應 block_ip.lua（超高請求率時的封鎖）。
+block_ip.lua 的 count:* keys 是「request rate」(連線/頻率) 的即時計數，
+與 log_error_block.lua 的錯誤碼封鎖/每日統計（daily:ipcounts）是不同用途。
+daily:ipcounts 對應 log_error_block.lua（錯誤碼達 threshold 時做的每日排名），
+count:... 對應 block_ip.lua（超高請求率時的封鎖）。
 ```
 ---
 
